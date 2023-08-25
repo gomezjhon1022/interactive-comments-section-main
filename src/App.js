@@ -22,18 +22,34 @@ function App() {
     <div className="App">
       <main>
         {data && data.comments && data.comments.map((element, index)=>(
-          <div className='comment__container' key={index}>
-            <div className='contentComment' >{element.content}</div>
-            <div className='createdAt'>{element.createdAt}</div>
-            <div className='user'>
-              <img className='userImage' src="https://images.pexels.com/photos/16628785/pexels-photo-16628785/free-photo-of-moda-amor-mujer-oscuro.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt='avatar'/>
-              <div className='username'>{element.user.username}</div>
+          <>
+            <div className='comment__container' key={index}>
+              <div className='contentComment' >{element.content}</div>
+              <div className='createdAt'>{element.createdAt}</div>
+              <div className='user'>
+                <img className='userImage' src={element.user.image.webp} alt='avatar'/>
+                <div className='username'>{element.user.username}</div>
+              </div>
+              <div className='score'><span className='plus'></span>{element.score}<span className='minus'></span></div>
+              <div className='reply'><span className='replyIcon'></span> Reply</div>
             </div>
-            <div className='score'><span className='plus'></span>{element.score}<span className='minus'></span></div>
-            <div className='reply'><span className='replyIcon'></span> Reply</div>
-          </div>
-                )
-        )
+            <div className='replies__container'>
+              {element.replies.map((item, index) => (
+                <div className='comment__container' key={index}>
+                <div className='contentComment' >{item.content}</div>
+                <div className='createdAt'>{item.createdAt}</div>
+                <div className='user'>
+                  <img className='userImage' src={item.user.image.webp} alt='avatar'/>
+                  <div className='username'>{item.user.username}</div>
+                </div>
+                <div className='score'><span className='plus'></span>{item.score}<span className='minus'></span></div>
+                <div className='reply'><span className='replyIcon'></span> Reply</div>
+                </div>
+              ))
+              }
+            </div>
+            </>
+        ))
         }
       </main>
     </div>
