@@ -134,6 +134,7 @@ main {
 
 .replies__container {
   padding-left: 20px;
-  border-left: solid 2px var(--light-gray);
+  max-width: 410px;
+  border-left: solid 3px var(--light-gray);
 }
 
