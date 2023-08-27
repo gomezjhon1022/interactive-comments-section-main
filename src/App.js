@@ -9,7 +9,7 @@ function App() {
   const [addComment, setAddComment]= useState(false);
     console.log("data", data);
 
-  const handleReply = (comment)=> {
+  const handleReply = ()=> {
     setAddComment(!addComment);
   }
 
@@ -18,12 +18,27 @@ function App() {
       if (element.id===comment.id) {
         return {
           ...element,
-          score: element.score +1
+          score: element.score + 1
         };
       }
-      return element;
+      let updateReplies= element.replies;
+      if (element.replies.length > 0) {
+          updateReplies = element.replies.map((rep) => {
+          if (rep.id===comment.id) {
+            return {
+              ...rep,
+              score: rep.score +1
+            };
+          }
+          return rep;
+          })
+      }
+      return {
+        ...element,
+        replies: updateReplies
+      };
     });
-    setData({...data,  comments:updatedData});
+    setData({...data,  comments:updatedData})
   }
 
   const handleminus = (comment) => {
@@ -31,10 +46,24 @@ function App() {
       if (element.id===comment.id) {
         return {
           ...element,
-          score: element.score -1
+          score: element.score - 1
         };
       }
-      return element;
+      let updateReplies= element.replies;
+      if (element.replies.length > 0) {
+          updateReplies = element.replies.map((rep) => {
+          if (rep.id===comment.id) {
+            return {
+              ...rep,
+              score: rep.score -1
+            };
+          }
+          return rep;
+          })
+      }
+      return {...element,
+        replies: updateReplies
+      }
     });
     setData({...data,  comments:updatedData});
   }
@@ -64,7 +93,7 @@ function App() {
                   <img className='userImage' src={item.user.image.webp} alt='avatar'/>
                   <div className='username'>{item.user.username}</div>
                 </div>
-                <div className='score'><span className='plus'></span>{item.score}<span className='minus'></span></div>
+                <div className='score'><span className='plus' onClick={()=>handleplus(item)}></span>{item.score}<span className='minus' onClick={()=>handleminus(item)}></span></div>
                 <div className='reply' onClick={()=>handleReply(item)}><span className='replyIcon'></span> Reply</div>
                 </div>
               ))
