@@ -2,15 +2,57 @@ import { Fragment, useState } from 'react';
 import './App.css';
 import jsonData from "./data/data.json";
 
+function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
+  const [showAddComment, setShowAddComment]=useState(false);
+  const toggleAddComment = ()=> {
+    setShowAddComment(!showAddComment);
+  }
+  const clearComment = () => {
+    setShowAddComment(!showAddComment);
+
+  }
+
+  return (
+    <Fragment key={comment.id}>
+      <div className='comment__container'>
+        <div className='contentComment' >{comment.content}</div>
+          <div className='createdAt'>{comment.createdAt}</div>
+          <div className='user'>
+            <img className='userImage' src={comment.user.image.webp} alt='avatar'/>
+            <div className='username'>{comment.user.username}</div>
+          </div>
+          <div className='score'><span className='plus' onClick={()=>handleScore(comment, 'plus')}></span>{comment.score}<span className='minus' onClick={()=>handleScore(comment,'minus')} ></span></div>
+          <div className='reply' onClick={toggleAddComment}><span className='replyIcon'></span> Reply</div>
+        </div>
+      {showAddComment && (
+        <div className='addComment__container'>
+          <textarea className='addComent__text' placeholder='Add a comment...' onChange={handleText}></textarea>
+          <img className='userImage' src="./images/avatars/image-juliusomo.webp"></img>
+          <button className='btnSend' onClick={()=>{saveComment(comment); clearComment()}}>SEND</button>
+        </div>
+      )}
+      <div className='replies__container'>
+        {comment.replies?.map((reply) => (
+          <Comment
+            key={reply.id}
+            comment={reply}
+            showAddComment={showAddComment}
+            handleReply={handleReply}
+            handleScore={handleScore}
+            handleText={handleText}
+            saveComment={saveComment}
+          />
+        ))}
+      </div>
+    </Fragment>
+  )
+}
 
 
 function App() {
   const [data,setData]= useState(jsonData);
-  const [addComment,setAddComment] =useState();
   const [text, setText]=useState();
-  const handleReply = (item)=> {
-    setAddComment(item.id);
-  }
+  const [id, setId] =useState(10);
 
   const handleScore = (comment,operation) => {
     let value;
@@ -59,7 +101,7 @@ function App() {
           replies: [
             ...elementData.replies,
             {
-              id: 55,
+              id: getId(),
               content: text,
               createdAt: "just now",
               score: 0,
@@ -78,61 +120,27 @@ function App() {
       return elementData;
     });
     setData({...data,  comments:updatedData});
-    setAddComment(null);
-
-
+    const data2={...data, comments:updatedData}
+    console.log("data2", data2)
   }
+
+  const getId = () => {
+    const newId = id+1;
+    setId(newId);
+    return newId;
+  }
+
   return (
     <div className="App">
       <main>
-        {data && data.comments && data.comments.map((commentsItem)=>(
-          <div key={commentsItem.id}>
-            <div className='comment__container' >
-              <div className='contentComment' >{commentsItem.content}</div>
-              <div className='createdAt'>{commentsItem.createdAt}</div>
-              <div className='user'>
-                <img className='userImage' src={commentsItem.user.image.webp} alt='avatar'/>
-                <div className='username'>{commentsItem.user.username}</div>
-              </div>
-              <div className='score'><span className='plus' onClick={()=>handleScore(commentsItem, 'plus')}></span>{commentsItem.score}<span className='minus' onClick={()=>handleScore(commentsItem,'minus')} ></span></div>
-              <div className='reply' onClick={()=>handleReply(commentsItem)}><span className='replyIcon'></span> Reply</div>
-            </div>
-            {addComment===commentsItem.id
-              ?<div className='addComment__container'>
-                  <textarea className='addComent__text' placeholder='Add a comment...' onChange={handleText}>
-                  </textarea>
-                  <img className='userImage' src="./images/avatars/image-juliusomo.webp"></img>
-                  <button className='btnSend' onClick={()=>saveComment(commentsItem)}>SEND</button>
-              </div>
-              :""
-            }
-            <div className='replies__container'>
-              {commentsItem.replies.map((repliesItem, index) => (
-                <Fragment key={index} >
-                  <div className='comment__container' >
-                    <div className='contentComment' >{repliesItem.content}</div>
-                    <div className='createdAt'>{repliesItem.createdAt}</div>
-                    <div className='user'>
-                      <img className='userImage' src={repliesItem.user.image.webp} alt='avatar'/>
-                      <div className='username'>{repliesItem.user.username}</div>
-                    </div>
-                    <div className='score'><span className='plus' onClick={()=>handleScore(repliesItem, 'plus')}></span>{repliesItem.score}<span className='minus' onClick={()=>handleScore(repliesItem,'minus')}></span></div>
-                    <div className='reply' onClick={()=>handleReply(repliesItem)}><span className='replyIcon'></span> Reply</div>
-                  </div>
-                  {addComment===repliesItem.id
-                    ?<div className='addComment__container'>
-                      <textarea className='addComent__text' placeholder='Add a comment...' onChange={handleText} >
-                      </textarea>
-                      <img className='userImage' src="./images/avatars/image-juliusomo.webp"></img>
-                      <button className='btnSend'>SEND</button>
-                    </div>
-                    :""
-                  }
-                </Fragment>
-              ))
-              }
-            </div>
-          </div>
+        {data && data.comments && data.comments.map((comment)=>(
+          <Comment
+            key={comment.id}
+            comment={comment}
+            handleScore={handleScore}
+            handleText={handleText}
+            saveComment={saveComment}
+          />
         ))
         }
       </main>
