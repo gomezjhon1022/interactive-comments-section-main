@@ -138,3 +138,35 @@ main {
   border-left: solid 3px var(--light-gray);
 }
 
+.addComment__container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+.addComent__text {
+  min-height: 70px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  color: var(--dark-blue);
+  font-size: var(--font-size-paragraph);
+  border-radius: 5px;
+  border: solid 2px var(--light-gray);
+}
+
+.btnSend {
+  width: 70px;
+  height: 40px;
+  border-radius: 4px;
+  margin-left: auto;
+  background-color: var(--moderate-blue);
+  color: var(--white);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
