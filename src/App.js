@@ -4,11 +4,20 @@ import jsonData from "./data/data.json";
 
 function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
   const [showAddComment, setShowAddComment]=useState(false);
+
   const toggleAddComment = ()=> {
     setShowAddComment(!showAddComment);
   }
+  const handleReplyClick = () => {
+    handleReply(comment.id);
+    toggleAddComment();
+  }
+  const handleSaveComment = () => {
+    saveComment(comment.id);
+    clearComment();
+  }
   const clearComment = () => {
-    setShowAddComment(!showAddComment);
+    setShowAddComment(false);
 
   }
 
@@ -22,13 +31,13 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
             <div className='username'>{comment.user.username}</div>
           </div>
           <div className='score'><span className='plus' onClick={()=>handleScore(comment, 'plus')}></span>{comment.score}<span className='minus' onClick={()=>handleScore(comment,'minus')} ></span></div>
-          <div className='reply' onClick={toggleAddComment}><span className='replyIcon'></span> Reply</div>
+          <div className='reply' onClick={handleReplyClick}><span className='replyIcon'></span> Reply</div>
         </div>
       {showAddComment && (
         <div className='addComment__container'>
           <textarea className='addComent__text' placeholder='Add a comment...' onChange={handleText}></textarea>
           <img className='userImage' src="./images/avatars/image-juliusomo.webp"></img>
-          <button className='btnSend' onClick={()=>{saveComment(comment); clearComment()}}>SEND</button>
+          <button className='btnSend' onClick={handleSaveComment}>SEND</button>
         </div>
       )}
       <div className='replies__container'>
@@ -53,6 +62,11 @@ function App() {
   const [data,setData]= useState(jsonData);
   const [text, setText]=useState();
   const [id, setId] =useState(10);
+  const [activeReplyId, setActiveReplyId]=useState(null);
+
+  const handleReply = (commentId)=>{
+    setActiveReplyId(commentId);
+  }
 
   const handleScore = (comment,operation) => {
     let value;
@@ -93,35 +107,45 @@ function App() {
     setText(e.target.value);
   }
 
-  const saveComment = (comment) => {
-    const updatedData = data.comments.map((elementData) => {
-      if (elementData.id===comment.id) {
-        return {
-          ...elementData,
-          replies: [
-            ...elementData.replies,
-            {
-              id: getId(),
-              content: text,
-              createdAt: "just now",
-              score: 0,
-              user: {
-                "image": {
-                  "png": "./images/avatars/image-juliusomo.png",
-                  "webp": "./images/avatars/image-juliusomo.webp"
+  const saveComment = (commentId) => {
+    const updatedData = recursivelyUpdateComment(data.comments, commentId);
+    setData({...data, comments:updatedData});
+    setActiveReplyId(null);
+  }
+
+  const recursivelyUpdateComment = (comments, commentId) => {
+      return comments.map((comment)=>{
+        if (comment.id === commentId) {
+          return {
+            ...comment,
+            replies: Array.isArray(comment.replies)
+            ? [
+              ...comment.replies,
+              {
+                id: getId(),
+                content: text,
+                createdAt: "just now",
+                score: 0,
+                user: {
+                  "image": {
+                    "png": "./images/avatars/image-juliusomo.png",
+                    "webp": "./images/avatars/image-juliusomo.webp"
+                  },
+                  username: "juliusomo"
                 },
-                "username": "juliusomo"
-              },
-              replies:[]
-            }
-          ],
-        };
-      }
-      return elementData;
-    });
-    setData({...data,  comments:updatedData});
-    const data2={...data, comments:updatedData}
-    console.log("data2", data2)
+                replies: []
+              }
+            ]
+            : []
+          }
+        } else if (comment.replies && comment.replies.length>0) {
+          return {
+            ...comment,
+            replies: recursivelyUpdateComment(comment.replies, commentId)
+          };
+        }
+        return comment;
+      });
   }
 
   const getId = () => {
@@ -137,6 +161,7 @@ function App() {
           <Comment
             key={comment.id}
             comment={comment}
+            handleReply={handleReply}
             handleScore={handleScore}
             handleText={handleText}
             saveComment={saveComment}
