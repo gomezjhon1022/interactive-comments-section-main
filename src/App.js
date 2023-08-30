@@ -108,6 +108,7 @@ function App() {
   }
 
   const saveComment = (commentId) => {
+    console.log(commentId);
     const updatedData = recursivelyUpdateComment(data.comments, commentId);
     setData({...data, comments:updatedData});
     setActiveReplyId(null);
@@ -118,8 +119,8 @@ function App() {
         if (comment.id === commentId) {
           return {
             ...comment,
-            replies: Array.isArray(comment.replies)
-            ? [
+            replies: comment.replies ? [...comment.replies] : [],
+            replies: [
               ...comment.replies,
               {
                 id: getId(),
@@ -136,7 +137,6 @@ function App() {
                 replies: []
               }
             ]
-            : []
           }
         } else if (comment.replies && comment.replies.length>0) {
           return {
