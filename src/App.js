@@ -9,7 +9,6 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
     setShowAddComment(!showAddComment);
   }
   const handleReplyClick = () => {
-    handleReply(comment.id);
     toggleAddComment();
   }
   const handleSaveComment = () => {
@@ -62,56 +61,39 @@ function App() {
   const [data,setData]= useState(jsonData);
   const [text, setText]=useState();
   const [id, setId] =useState(10);
-  const [activeReplyId, setActiveReplyId]=useState(null);
-
-  const handleReply = (commentId)=>{
-    setActiveReplyId(commentId);
-  }
 
   const handleScore = (comment,operation) => {
-    let value;
-    if (operation==='plus') {
-      value=+1;
-    } else {
-      value=-1;
-    }
+  const value = operation === 'plus'? 1 : -1;
 
-    const updatedData = data.comments.map((elementData) => {
-      if (elementData.id===comment.id) {
+  const updatedData = recursivelyUpdateScore([...data.comments], comment.id, value);
+    setData({...data, comments: updatedData});
+  }
+
+  const recursivelyUpdateScore = (comments, commentId, value) => {
+    return comments.map((comment) => {
+      if (comment.id ===commentId) {
         return {
-          ...elementData,
-          score: elementData.score + value
+          ...comment,
+          score: comment.score + value,
+        };
+      } else if (comment.replies && comment.replies.length>0) {
+        return {
+          ...comment,
+          replies: recursivelyUpdateScore(comment.replies, commentId, value),
         };
       }
-      let updateReplies= elementData.replies;
-      if (elementData.replies.length > 0) {
-          updateReplies = elementData.replies.map((rep) => {
-          if (rep.id===comment.id) {
-            return {
-              ...rep,
-              score: rep.score + value
-            };
-          }
-          return rep;
-          })
-      }
-      return {
-        ...elementData,
-        replies: updateReplies
-      };
-    });
-    setData({...data,  comments:updatedData})
+      return comment;
+    })
   }
+
 
   const handleText = (e) => {
     setText(e.target.value);
   }
 
   const saveComment = (commentId) => {
-    console.log(commentId);
     const updatedData = recursivelyUpdateComment(data.comments, commentId);
     setData({...data, comments:updatedData});
-    setActiveReplyId(null);
   }
 
   const recursivelyUpdateComment = (comments, commentId) => {
@@ -161,7 +143,6 @@ function App() {
           <Comment
             key={comment.id}
             comment={comment}
-            handleReply={handleReply}
             handleScore={handleScore}
             handleText={handleText}
             saveComment={saveComment}
