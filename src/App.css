@@ -170,3 +170,7 @@ main {
   cursor: pointer;
 }
 
+.invisible {
+  visibility: hidden;
+}
+

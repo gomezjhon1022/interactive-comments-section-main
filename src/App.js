@@ -4,6 +4,7 @@ import jsonData from "./data/data.json";
 
 function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
   const [showAddComment, setShowAddComment]=useState(false);
+  const [userScored, setUserScored]=useState(false);
 
   const toggleAddComment = ()=> {
     setShowAddComment(!showAddComment);
@@ -20,6 +21,13 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
 
   }
 
+  const handleScoreClick =(comment, operation )=> {
+    if (!userScored) {
+      handleScore(comment, operation);
+      setUserScored(true);
+    }
+  }
+
   return (
     <Fragment key={comment.id}>
       <div className='comment__container'>
@@ -29,7 +37,10 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
             <img className='userImage' src={comment.user.image.webp} alt='avatar'/>
             <div className='username'>{comment.user.username}</div>
           </div>
-          <div className='score'><span className='plus' onClick={()=>handleScore(comment, 'plus')}></span>{comment.score}<span className='minus' onClick={()=>handleScore(comment,'minus')} ></span></div>
+          <div className='score'>
+            <span className={`plus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment, 'plus')}></span>
+              {comment.score}
+            <span className={`minus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment,'minus')} ></span></div>
           <div className='reply' onClick={handleReplyClick}><span className='replyIcon'></span> Reply</div>
         </div>
       {showAddComment && (
