@@ -15,6 +15,9 @@
 }
 
 .App {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   background-color: var(--very-light-gray);
@@ -214,5 +217,67 @@ main {
 
 .invisible {
   visibility: hidden;
+}
+
+.modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color:rgba(32, 35, 41, .8);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+
+.card__delete {
+  width: 300px;
+  height: 160px;
+  padding : 20px;
+  border-radius: 16px;
+  background-color: var(--white);
+}
+
+.card__title {
+  margin-bottom: 14px;
+  font-size: 20px;
+  color:var(--dark-blue);
+  font-weight: 500;
+
+}
+
+.card__description {
+  margin-bottom: 16px;
+  font-size: var(--font-size-paragraph);
+  color: var(--grayish-blue);
+}
+
+.card__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn__cancel, .btn__delete {
+  height: 40px;
+  border-radius: 6px;
+  padding: 0 16px;
+  border: none;
+  color:var(--white);
+  cursor:pointer;
+}
+
+
+.btn__cancel {
+  background-color: var(--grayish-blue);
+}
+
+.btn__delete {
+  background-color:var(--soft-red);
 }
 

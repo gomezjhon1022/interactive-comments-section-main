@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import './App.css';
 import jsonData from "./data/data.json";
 
-function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
+function Comment({comment, handleReply, handleScore, handleText, saveComment,setModalIsOpen}) {
   const [showAddComment, setShowAddComment]=useState(false);
   const [userScored, setUserScored]=useState(false);
   const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
@@ -37,6 +37,15 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
     }
   }
 
+  const handleEdit = () => {
+    console.log("edit")
+  }
+
+  const handleDelete = () => {
+    console.log("delete")
+    setModalIsOpen(true);
+  }
+
   return (
     <Fragment key={comment.id}>
       <div className='comment__container'>
@@ -52,8 +61,8 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
             <span className={`minus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment,'minus')} ></span></div>
             {isCurrentUserComment?(
               <div className='edit-delete'>
-                <button className='delete'><span className='deleteIcon'></span>delete</button>
-                <button className='edit'><span className='editIcon'></span>edit</button>
+                <button className='delete' onClick={handleDelete}><span className='deleteIcon'></span>Delete</button>
+                <button className='edit' onClick={handleEdit}><span className='editIcon'></span>Edit</button>
               </div>
             ):
             <div className='reply' onClick={handleReplyClick}>
@@ -79,6 +88,7 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
             handleScore={handleScore}
             handleText={handleText}
             saveComment={saveComment}
+            setModalIsOpen={setModalIsOpen}
           />
         ))}
       </div>
@@ -91,6 +101,7 @@ function App() {
   const [data,setData]= useState(jsonData);
   const [text, setText]=useState();
   const [id, setId] =useState(10);
+  const [modalIsOpen, setModalIsOpen]=useState(false);
 
   const handleScore = (comment,operation) => {
   const value = operation === 'plus'? 1 : -1;
@@ -176,9 +187,22 @@ function App() {
             handleScore={handleScore}
             handleText={handleText}
             saveComment={saveComment}
+            setModalIsOpen={setModalIsOpen}
           />
         ))
         }
+        {modalIsOpen&&
+          <div className='modal'>
+            <div className='card__delete'>
+              <div className='card__title'>Delete comment</div>
+              <div className='card__description'> Are you sure you want to delete this comment? This will remove the comment and can't be undone.</div>
+              <div className='card__buttons'>
+                <button className='btn__cancel'>NO, CANCEL</button>
+                <button className='btn__delete'>YES, DELETE</button>
+              </div>
+
+            </div>
+          </div>}
       </main>
     </div>
   );
