@@ -1,10 +1,19 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import './App.css';
 import jsonData from "./data/data.json";
 
 function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
   const [showAddComment, setShowAddComment]=useState(false);
   const [userScored, setUserScored]=useState(false);
+  const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
+  const currentUser = "juliusomo"
+  useEffect(()=> {
+    if (currentUser && comment.user.username === currentUser) {
+      setIsCurrentUserComment(true);
+    } else {
+      setIsCurrentUserComment(false);
+    }
+  }, [currentUser, comment.user.username]);
 
   const toggleAddComment = ()=> {
     setShowAddComment(!showAddComment);
@@ -41,7 +50,17 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment}) {
             <span className={`plus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment, 'plus')}></span>
               {comment.score}
             <span className={`minus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment,'minus')} ></span></div>
-          <div className='reply' onClick={handleReplyClick}><span className='replyIcon'></span> Reply</div>
+            {isCurrentUserComment?(
+              <div className='edit-delete'>
+                <button className='delete'><span className='deleteIcon'></span>delete</button>
+                <button className='edit'><span className='editIcon'></span>edit</button>
+              </div>
+            ):
+            <div className='reply' onClick={handleReplyClick}>
+              <span className='replyIcon'></span>
+            Reply
+            </div>
+            }
         </div>
       {showAddComment && (
         <div className='addComment__container'>

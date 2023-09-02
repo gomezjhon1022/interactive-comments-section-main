@@ -82,8 +82,8 @@ main {
 
 .score {
   grid-area: score;
-  height: 40px;
-  width: 85px;
+  height: 38px;
+  width: 80px;
   background-color: var(--light-gray);
   border-radius: 10px;
   display: flex;
@@ -120,6 +120,48 @@ main {
   font-weight: 700;
   justify-self: end;
   cursor: pointer;
+}
+.edit-delete {
+  grid-area: reply;
+  font-weight: 700;
+  justify-self: end;
+}
+
+.edit {
+  color: var(--moderate-blue);
+  border: none;
+  background-color: var(--white);
+  font-weight: 700;
+  font-size: var(--font-size-paragraph);
+  cursor: pointer;
+}
+.delete {
+  color: var(--soft-red);
+  border: none;
+  background-color: var(--white);
+  font-weight: 700;
+  font-size: var(--font-size-paragraph);
+  cursor: pointer;
+}
+
+.editIcon {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  background-image: url(../public/images/icons/icon-edit.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.deleteIcon {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  background-image: url(../public/images/icons/icon-delete.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .replyIcon {
