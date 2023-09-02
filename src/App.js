@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import './App.css';
 import jsonData from "./data/data.json";
 
-function Comment({comment, handleReply, handleScore, handleText, saveComment,setModalIsOpen}) {
+function Comment({comment, handleReply, handleScore, handleText, saveComment, setModalIsOpen, setCommentToDelete}) {
   const [showAddComment, setShowAddComment]=useState(false);
   const [userScored, setUserScored]=useState(false);
   const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
@@ -41,9 +41,12 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment,set
     console.log("edit")
   }
 
-  const handleDelete = () => {
+  const handleDelete = (comment) => {
     console.log("delete")
+    console.log(comment)
     setModalIsOpen(true);
+    setCommentToDelete(comment);
+
   }
 
   return (
@@ -61,7 +64,7 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment,set
             <span className={`minus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment,'minus')} ></span></div>
             {isCurrentUserComment?(
               <div className='edit-delete'>
-                <button className='delete' onClick={handleDelete}><span className='deleteIcon'></span>Delete</button>
+                <button className='delete' onClick={()=>handleDelete(comment)}><span className='deleteIcon'></span>Delete</button>
                 <button className='edit' onClick={handleEdit}><span className='editIcon'></span>Edit</button>
               </div>
             ):
@@ -89,6 +92,7 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment,set
             handleText={handleText}
             saveComment={saveComment}
             setModalIsOpen={setModalIsOpen}
+            setCommentToDelete={setCommentToDelete}
           />
         ))}
       </div>
@@ -102,6 +106,7 @@ function App() {
   const [text, setText]=useState();
   const [id, setId] =useState(10);
   const [modalIsOpen, setModalIsOpen]=useState(false);
+  const [commentToDelete, setCommentToDelete]=useState();
 
   const handleScore = (comment,operation) => {
   const value = operation === 'plus'? 1 : -1;
@@ -177,6 +182,35 @@ function App() {
     return newId;
   }
 
+  const handleCancelDelete = () => {
+    setModalIsOpen(false);
+  }
+
+  const handleConfirmDelete = () => {
+
+    const recursivelyUpdateDeleteComment= (comments)=>{
+      return comments.map((comment)=>{
+        if (comment.id!==commentToDelete.id) {
+          if (comment.replies && comment.replies.length>0) {
+            return {
+              ...comment,
+              replies: recursivelyUpdateDeleteComment(comment.replies),
+            };
+          }
+          return {
+            ...comment,
+          };
+        }
+      }).filter(Boolean);
+    }
+
+    const updatedData = recursivelyUpdateDeleteComment([...data.comments]);
+
+    setData({...data, comments:updatedData});
+    setModalIsOpen(false);
+//________________________________________
+  }
+
   return (
     <div className="App">
       <main>
@@ -188,6 +222,7 @@ function App() {
             handleText={handleText}
             saveComment={saveComment}
             setModalIsOpen={setModalIsOpen}
+            setCommentToDelete={setCommentToDelete}
           />
         ))
         }
@@ -197,8 +232,8 @@ function App() {
               <div className='card__title'>Delete comment</div>
               <div className='card__description'> Are you sure you want to delete this comment? This will remove the comment and can't be undone.</div>
               <div className='card__buttons'>
-                <button className='btn__cancel'>NO, CANCEL</button>
-                <button className='btn__delete'>YES, DELETE</button>
+                <button className='btn__cancel' onClick={handleCancelDelete}>NO, CANCEL</button>
+                <button className='btn__delete' onClick={handleConfirmDelete}>YES, DELETE</button>
               </div>
 
             </div>
