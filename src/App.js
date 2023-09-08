@@ -2,11 +2,12 @@ import { Fragment, useEffect, useState } from 'react';
 import './App.css';
 import jsonData from "./data/data.json";
 
-function Comment({comment, handleReply, handleScore, handleText, saveComment, setModalIsOpen, setCommentToDelete}) {
+function Comment({comment, handleReply, handleScore, handleText, saveComment, setModalIsOpen, setCommentToDelete, editMode, setEditMode, textUpdate, setTextUpdate, saveUpdateComment}) {
   const [showAddComment, setShowAddComment]=useState(false);
   const [userScored, setUserScored]=useState(false);
   const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
   const currentUser = "juliusomo"
+
   useEffect(()=> {
     if (currentUser && comment.user.username === currentUser) {
       setIsCurrentUserComment(true);
@@ -27,7 +28,6 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment, se
   }
   const clearComment = () => {
     setShowAddComment(false);
-
   }
 
   const handleScoreClick =(comment, operation )=> {
@@ -37,22 +37,43 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment, se
     }
   }
 
-  const handleEdit = () => {
-    console.log("edit")
+  const handleEdit = (comment) => {
+    setTextUpdate(comment.content);
+    setEditMode(comment.id);
   }
 
   const handleDelete = (comment) => {
-    console.log("delete")
-    console.log(comment)
     setModalIsOpen(true);
     setCommentToDelete(comment);
-
   }
 
+  const handleUpdateComment = () => {
+    saveUpdateComment();
+    clearUpdateComment();
+  }
+
+  const clearUpdateComment=()=>{
+    setEditMode("");
+    setTextUpdate("");
+  }
   return (
     <Fragment key={comment.id}>
       <div className='comment__container'>
-        <div className='contentComment' >{comment.content}</div>
+          {
+            editMode===comment.id?
+            <div className='text__edit__container'>
+              <textarea
+                className='text__edit'
+                value={textUpdate}
+                onChange={(e) => {
+                  setTextUpdate(e.target.value);
+                  }
+                }
+              ></textarea>
+              <button className='btn__update' onClick={handleUpdateComment}>UPDATE</button>
+            </div>
+            :<div className='contentComment' >{comment.content}</div>
+          }
           <div className='createdAt'>{comment.createdAt}</div>
           <div className='user'>
             <img className='userImage' src={comment.user.image.webp} alt='avatar'/>
@@ -65,7 +86,7 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment, se
             {isCurrentUserComment?(
               <div className='edit-delete'>
                 <button className='delete' onClick={()=>handleDelete(comment)}><span className='deleteIcon'></span>Delete</button>
-                <button className='edit' onClick={handleEdit}><span className='editIcon'></span>Edit</button>
+                <button className='edit' onClick={()=>handleEdit(comment)}><span className='editIcon'></span>Edit</button>
               </div>
             ):
             <div className='reply' onClick={handleReplyClick}>
@@ -93,6 +114,11 @@ function Comment({comment, handleReply, handleScore, handleText, saveComment, se
             saveComment={saveComment}
             setModalIsOpen={setModalIsOpen}
             setCommentToDelete={setCommentToDelete}
+            editMode={editMode}
+            setEditMode={setEditMode}
+            textUpdate={textUpdate}
+            setTextUpdate={setTextUpdate}
+            saveUpdateComment={saveUpdateComment}
           />
         ))}
       </div>
@@ -107,6 +133,8 @@ function App() {
   const [id, setId] =useState(10);
   const [modalIsOpen, setModalIsOpen]=useState(false);
   const [commentToDelete, setCommentToDelete]=useState();
+  const [editMode, setEditMode]=useState();
+  const [textUpdate, setTextUpdate]=useState();
 
   const handleScore = (comment,operation) => {
   const value = operation === 'plus'? 1 : -1;
@@ -208,7 +236,31 @@ function App() {
 
     setData({...data, comments:updatedData});
     setModalIsOpen(false);
-//________________________________________
+  }
+
+  const saveUpdateComment = () => {
+    const recursivelyUpdateComment=(comments)=>{
+      return comments.map((comment)=>{
+        if (comment.id!==editMode) {
+          if (comment.replies && comment.replies.length>0) {
+            return {
+              ...comment,
+              replies: recursivelyUpdateComment(comment.replies)
+            }
+          }
+          return {
+            ...comment,
+          }
+        } else {
+          return {
+            ...comment,
+            content: textUpdate
+          }
+        }
+      })
+    }
+    const updateData = recursivelyUpdateComment([...data.comments]);
+    setData({...data, comments:updateData});
   }
 
   return (
@@ -223,6 +275,11 @@ function App() {
             saveComment={saveComment}
             setModalIsOpen={setModalIsOpen}
             setCommentToDelete={setCommentToDelete}
+            setEditMode={setEditMode}
+            editMode={editMode}
+            textUpdate={textUpdate}
+            setTextUpdate={setTextUpdate}
+            saveUpdateComment={saveUpdateComment}
           />
         ))
         }

@@ -48,7 +48,34 @@ main {
   grid-area: contentComment;
   color: var(--grayish-blue);
   margin: 15px 0;
+}
 
+.text__edit__container {
+  grid-area: contentComment;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.text__edit {
+  width: calc(100% - 24px);
+  color: var(--dark-blue);
+  margin: 15px 0;
+  padding: 6px 12px;
+  max-height: 100vh;
+  height: 150px;
+
+}
+
+.btn__update {
+  height: 40px;
+  border-radius: 6px;
+  padding: 0 16px;
+  border: none;
+  color:var(--white);
+  background-color: var(--moderate-blue);
+  cursor:pointer;
+  align-self: flex-end;
 }
 
 .createdAt {
@@ -172,6 +199,7 @@ main {
   display: inline-block;
   height: 15px;
   width: 15px;
+  margin-right: 6px;
   background-image: url(../public/images/icons/icon-reply.svg);
   background-position: center;
   background-repeat: no-repeat;
@@ -232,8 +260,6 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-
-
 }
 
 
