@@ -73,8 +73,12 @@ function useComments() {
             ...comment,
             replies: recursivelyUpdateComment(comment.replies, commentId)
           };
+        } else {
+          return {
+            ...comment,
+            replies: []
+          };
         }
-        return comment;
       });
   }
 
