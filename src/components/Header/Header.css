@@ -1,6 +1,6 @@
 .header__container {
   width: 100%;
-  background-color: var(--light-grayish-blue);
+  background-color: var(--dark-blue);
   position: sticky;
   top:0px;
   display: flex;

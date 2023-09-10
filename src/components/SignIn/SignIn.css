@@ -1,0 +1,47 @@
+.signin__container {
+  height: 100vh;
+  width: 100%;
+  background-color: var(--light-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin {
+  width: 70%;
+  max-width: 320px;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding: 20px 30px;
+  background-color: var(--white);
+  border-radius: 15px;
+}
+
+.signin__title {
+  font-size: 24px;
+  margin: 20px 0;
+  color:var(--dark-blue);
+  font-weight: 500;
+}
+
+.signin__user {
+  width: 100%;
+  margin: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
+}
+
+.signin__img {
+  height: 50px;
+  width: 50px;
+  margin-right: 15px;
+}
+
+.signin__username {
+  font-size: 18px;
+  color:var(--grayish-blue)
+}

@@ -9,6 +9,7 @@ function useComments() {
   const [commentToDelete, setCommentToDelete]=useState();
   const [editMode, setEditMode]=useState();
   const [textUpdate, setTextUpdate]=useState();
+  const [isChooseUserOpen, setIsChooseUserOpen]=useState(true);
   // const [userCurrent, setUserCurrent]=useState();
 
   const handleScore = (comment,operation) => {
@@ -162,6 +163,8 @@ function useComments() {
     saveUpdateComment,
     handleCancelDelete,
     handleConfirmDelete,
+    isChooseUserOpen,
+    setIsChooseUserOpen
   };
 }
 
