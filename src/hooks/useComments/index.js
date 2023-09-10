@@ -9,6 +9,7 @@ function useComments() {
   const [commentToDelete, setCommentToDelete]=useState();
   const [editMode, setEditMode]=useState();
   const [textUpdate, setTextUpdate]=useState();
+  // const [userCurrent, setUserCurrent]=useState();
 
   const handleScore = (comment,operation) => {
   const value = operation === 'plus'? 1 : -1;

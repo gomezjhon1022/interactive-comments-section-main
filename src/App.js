@@ -1,5 +1,6 @@
 import './App.css';
 import { Comment } from './components/Comment/index';
+import { Header } from './components/Header';
 import { useComments } from './hooks/useComments';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <main>
         {data && data.comments && data.comments.map((comment)=>(
           <Comment

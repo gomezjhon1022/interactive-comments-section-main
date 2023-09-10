@@ -1,0 +1,37 @@
+.header__container {
+  width: 100%;
+  background-color: var(--light-grayish-blue);
+  position: sticky;
+  top:0px;
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  width: calc(100% - 40px);
+  max-width: 432px;
+  height: 60px;
+  margin: 20px;
+  background-color: var(--white);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+
+}
+
+.header > .user {
+  margin-left: 20px;
+  width: 90%;
+}
+
+.header__btn {
+  height: 45px;
+  width: 180px;
+  margin: 0 10px;
+  background-color: var(--light-gray);
+  border-radius: 10px;
+  color: var(--moderate-blue);
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+}

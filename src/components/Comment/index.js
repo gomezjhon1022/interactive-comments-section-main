@@ -87,7 +87,7 @@ function Comment(props) {
           <div className='score'>
             <span className={`plus ${userScored?'invisible':''}`} onClick={()=>handleScoreClick(comment, 'plus')}></span>
               {comment.score}
-            <span className={`minus ${userScored || comment.score===0?'invisible':''}`} onClick={()=>handleScoreClick(comment,'minus')} ></span></div>
+            <span className={`minus ${userScored || comment.score===0 ?'invisible':''}`} onClick={()=>handleScoreClick(comment,'minus')} ></span></div>
             {isCurrentUserComment?(
               <div className='edit-delete'>
                 <button className='delete' onClick={()=>handleDelete(comment)}><span className='deleteIcon'></span>Delete</button>
