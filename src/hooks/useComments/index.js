@@ -1,4 +1,5 @@
 import jsonData from "../../data/data.json";
+import jsonDataUsers from "../../data/users.json";
 import { useState } from "react";
 
 function useComments() {
@@ -10,7 +11,8 @@ function useComments() {
   const [editMode, setEditMode]=useState();
   const [textUpdate, setTextUpdate]=useState();
   const [isChooseUserOpen, setIsChooseUserOpen]=useState(true);
-  // const [userCurrent, setUserCurrent]=useState();
+  const [dataUsers, setDataUsers]=useState(jsonDataUsers)
+  const [userCurrent, setUserCurrent]=useState();
 
   const handleScore = (comment,operation) => {
   const value = operation === 'plus'? 1 : -1;
@@ -164,7 +166,10 @@ function useComments() {
     handleCancelDelete,
     handleConfirmDelete,
     isChooseUserOpen,
-    setIsChooseUserOpen
+    setIsChooseUserOpen,
+    dataUsers,
+    userCurrent,
+    setUserCurrent
   };
 }
 

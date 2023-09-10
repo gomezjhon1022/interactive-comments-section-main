@@ -3,23 +3,21 @@ import { useState, useEffect, Fragment } from "react";
 
 function Comment(props) {
   const {
-    comment, handleReply, handleScore, handleText, saveComment, setModalIsOpen, setCommentToDelete, editMode, setEditMode, textUpdate, setTextUpdate, saveUpdateComment
-  }=props;
+    comment, handleReply, handleScore, handleText, saveComment, setModalIsOpen, setCommentToDelete, editMode, setEditMode, textUpdate, setTextUpdate, saveUpdateComment,userCurrent}=props;
 
 
 
   const [showAddComment, setShowAddComment]=useState(false);
   const [userScored, setUserScored]=useState(false);
   const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
-  const currentUser = "juliusomo"
 
   useEffect(()=> {
-    if (currentUser && comment.user.username === currentUser) {
+    if (userCurrent && comment.user.username === userCurrent) {
       setIsCurrentUserComment(true);
     } else {
       setIsCurrentUserComment(false);
     }
-  }, [currentUser, comment.user.username]);
+  }, [userCurrent, comment.user.username]);
 
   const toggleAddComment = ()=> {
     setShowAddComment(!showAddComment);

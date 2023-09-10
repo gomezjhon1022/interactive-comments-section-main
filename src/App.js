@@ -7,12 +7,16 @@ import { useComments } from './hooks/useComments';
 
 function App() {
   const {
-  data,modalIsOpen, setModalIsOpen, setCommentToDelete,editMode, setEditMode,textUpdate, setTextUpdate, handleScore, handleText, saveComment, saveUpdateComment, handleCancelDelete, handleConfirmDelete,isChooseUserOpen, setIsChooseUserOpen}=useComments();
+  data,modalIsOpen, setModalIsOpen, setCommentToDelete,editMode, setEditMode,textUpdate, setTextUpdate, handleScore, handleText, saveComment, saveUpdateComment, handleCancelDelete, handleConfirmDelete,isChooseUserOpen, setIsChooseUserOpen,dataUsers,userCurrent, setUserCurrent}=useComments();
 
   return (
     <div className="App">
       {isChooseUserOpen
-        ?<SignIn/>
+        ?<SignIn
+          dataUsers={dataUsers}
+          setUserCurrent={setUserCurrent}
+          setIsChooseUserOpen={setIsChooseUserOpen}
+        />
         :<Fragment>
           <Header />
           <main>
@@ -30,6 +34,7 @@ function App() {
                 textUpdate={textUpdate}
                 setTextUpdate={setTextUpdate}
                 saveUpdateComment={saveUpdateComment}
+                userCurrent={userCurrent}
               />
             ))
             }
