@@ -156,6 +156,8 @@ main {
   grid-area: reply;
   font-weight: 700;
   justify-self: end;
+  width: 110%;
+  transform: translate(-10px,0);
 }
 
 .edit {
@@ -179,6 +181,7 @@ main {
   display: inline-block;
   height: 15px;
   width: 15px;
+  padding-right: 10px;
   background-image: url(../public/images/icons/icon-edit.svg);
   background-position: center;
   background-repeat: no-repeat;
@@ -189,6 +192,7 @@ main {
   display: inline-block;
   height: 15px;
   width: 15px;
+  padding-right: 10px;
   background-image: url(../public/images/icons/icon-delete.svg);
   background-position: center;
   background-repeat: no-repeat;
