@@ -1,6 +1,6 @@
 import jsonData from "../../data/data.json";
 import jsonDataUsers from "../../data/users.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function useComments() {
   const [data,setData]= useState(jsonData);
@@ -13,6 +13,21 @@ function useComments() {
   const [isChooseUserOpen, setIsChooseUserOpen]=useState(true);
   const [dataUsers, setDataUsers]=useState(jsonDataUsers)
   const [userCurrent, setUserCurrent]=useState();
+  const [user, setUser]=useState({});
+
+  useEffect(()=>{
+    handleUser()
+  },[userCurrent])
+
+  const  handleUser=()=>{
+    dataUsers.users.forEach(element => {
+      if (element.username===userCurrent) {
+        setUser({...user,name:element.username,photo:element.image.png});
+        console.log("element.username",element.username)
+        console.log("userCurrent",userCurrent)
+      }
+    });
+  }
 
   const handleScore = (comment,operation) => {
   const value = operation === 'plus'? 1 : -1;
@@ -63,10 +78,10 @@ function useComments() {
                 score: 0,
                 user: {
                   "image": {
-                    "png": "./images/avatars/image-juliusomo.png",
-                    "webp": "./images/avatars/image-juliusomo.webp"
+                    "png": user.photo,
+                    "webp": user.photo
                   },
-                  username: "juliusomo"
+                  username: user.name
                 },
                 replies: []
               }
@@ -169,7 +184,9 @@ function useComments() {
     setIsChooseUserOpen,
     dataUsers,
     userCurrent,
-    setUserCurrent
+    setUserCurrent,
+    handleUser,
+    user
   };
 }
 

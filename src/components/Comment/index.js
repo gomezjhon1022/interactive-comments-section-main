@@ -15,7 +15,8 @@ function Comment(props) {
     textUpdate,
     setTextUpdate,
     saveUpdateComment,
-    userCurrent
+    userCurrent,
+    user
   }=props;
 
 
@@ -114,7 +115,7 @@ function Comment(props) {
       {showAddComment && (
         <div className='addComment__container'>
           <textarea className='addComent__text' placeholder='Add a comment...' onChange={handleText}></textarea>
-          <img className='userImage' src="./images/avatars/image-juliusomo.webp"></img>
+          <img className='userImage' src={user?.photo}></img>
           <button className='btnSend' onClick={handleSaveComment}>SEND</button>
         </div>
       )}
