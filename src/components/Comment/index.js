@@ -3,7 +3,20 @@ import { useState, useEffect, Fragment } from "react";
 
 function Comment(props) {
   const {
-    comment, handleReply, handleScore, handleText, saveComment, setModalIsOpen, setCommentToDelete, editMode, setEditMode, textUpdate, setTextUpdate, saveUpdateComment,userCurrent}=props;
+    comment,
+    handleReply,
+    handleScore,
+    handleText,
+    saveComment,
+    setModalIsOpen,
+    setCommentToDelete,
+    editMode,
+    setEditMode,
+    textUpdate,
+    setTextUpdate,
+    saveUpdateComment,
+    userCurrent
+  }=props;
 
 
 

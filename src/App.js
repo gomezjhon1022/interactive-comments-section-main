@@ -7,8 +7,26 @@ import { useComments } from './hooks/useComments';
 
 function App() {
   const {
-  data,modalIsOpen, setModalIsOpen, setCommentToDelete,editMode, setEditMode,textUpdate, setTextUpdate, handleScore, handleText, saveComment, saveUpdateComment, handleCancelDelete, handleConfirmDelete,isChooseUserOpen, setIsChooseUserOpen,dataUsers,userCurrent, setUserCurrent}=useComments();
-
+    data,
+    modalIsOpen,
+    setModalIsOpen,
+    setCommentToDelete,
+    editMode,
+    setEditMode,
+    textUpdate,
+    setTextUpdate,
+    handleScore,
+    handleText,
+    saveComment,
+    saveUpdateComment,
+    handleCancelDelete,
+    handleConfirmDelete,
+    isChooseUserOpen,
+    setIsChooseUserOpen,
+    dataUsers,
+    userCurrent,
+    setUserCurrent
+  }=useComments();
   return (
     <div className="App">
       {isChooseUserOpen
@@ -18,7 +36,11 @@ function App() {
           setIsChooseUserOpen={setIsChooseUserOpen}
         />
         :<Fragment>
-          <Header />
+          <Header
+            setIsChooseUserOpen={setIsChooseUserOpen}
+            userCurrent={userCurrent}
+            dataUsers={dataUsers}
+          />
           <main>
             {data && data.comments && data.comments.map((comment)=>(
               <Comment

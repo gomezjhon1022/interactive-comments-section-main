@@ -10,7 +10,6 @@ function SignIn (props) {
   const handleCurrentUser = (user) => {
     setUserCurrent(user);
     setIsChooseUserOpen(false);
-
   }
   return (
   <div className="signin__container">
