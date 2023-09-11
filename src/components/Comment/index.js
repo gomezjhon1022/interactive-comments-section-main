@@ -28,8 +28,14 @@ function Comment(props) {
   useEffect(()=> {
     if (userCurrent && comment.user.username === userCurrent) {
       setIsCurrentUserComment(true);
+      console.log("setIsCurrentUserCommnet=true")
+      console.log("comment.user.username",comment.user.username)
+      console.log("userCurrent",userCurrent)
     } else {
       setIsCurrentUserComment(false);
+      console.log("comment.user.username",comment.user.username)
+      console.log("userCurrent",userCurrent)
+      console.log("setIsCurrentUserCommnet=false")
     }
   }, [userCurrent, comment.user.username]);
 

@@ -5,13 +5,11 @@ function SignIn (props) {
     dataUsers,
     setUserCurrent,
     setIsChooseUserOpen,
-    handleUser
   }=props;
 
   const handleCurrentUser = (user) => {
     setUserCurrent(user);
     setIsChooseUserOpen(false);
-    // handleUser();
   }
   return (
   <div className="signin__container">
