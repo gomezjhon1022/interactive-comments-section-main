@@ -15,29 +15,22 @@ function Comment(props) {
     textUpdate,
     setTextUpdate,
     saveUpdateComment,
-    userCurrent,
-    user
+    userCurrent
   }=props;
-
-
 
   const [showAddComment, setShowAddComment]=useState(false);
   const [userScored, setUserScored]=useState(false);
   const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
 
   useEffect(()=> {
-    if (userCurrent && comment.user.username === userCurrent) {
+    if (comment.user.username === userCurrent?.username) {
       setIsCurrentUserComment(true);
-      console.log("setIsCurrentUserCommnet=true")
-      console.log("comment.user.username",comment.user.username)
-      console.log("userCurrent",userCurrent)
     } else {
       setIsCurrentUserComment(false);
-      console.log("comment.user.username",comment.user.username)
-      console.log("userCurrent",userCurrent)
-      console.log("setIsCurrentUserCommnet=false")
     }
   }, [userCurrent, comment.user.username]);
+
+
 
   const toggleAddComment = ()=> {
     setShowAddComment(!showAddComment);
@@ -121,7 +114,7 @@ function Comment(props) {
       {showAddComment && (
         <div className='addComment__container'>
           <textarea className='addComent__text' placeholder='Add a comment...' onChange={handleText}></textarea>
-          <img className='userImage' src={user?.photo}></img>
+          <img className='userImage' src={userCurrent.image.png}></img>
           <button className='btnSend' onClick={handleSaveComment}>SEND</button>
         </div>
       )}
@@ -142,6 +135,7 @@ function Comment(props) {
             textUpdate={textUpdate}
             setTextUpdate={setTextUpdate}
             saveUpdateComment={saveUpdateComment}
+            userCurrent={userCurrent}
           />
         ))}
       </div>

@@ -26,8 +26,6 @@ function App() {
     dataUsers,
     userCurrent,
     setUserCurrent,
-    handleUser,
-    user
   }=useComments();
   return (
     <div className="App">
@@ -36,15 +34,11 @@ function App() {
           dataUsers={dataUsers}
           setUserCurrent={setUserCurrent}
           setIsChooseUserOpen={setIsChooseUserOpen}
-          handleUser={handleUser}
         />
         :<Fragment>
           <Header
             setIsChooseUserOpen={setIsChooseUserOpen}
             userCurrent={userCurrent}
-            dataUsers={dataUsers}
-            handleUser={handleUser}
-            user={user}
           />
           <main>
             {data && data.comments && data.comments.map((comment)=>(
@@ -62,7 +56,6 @@ function App() {
                 setTextUpdate={setTextUpdate}
                 saveUpdateComment={saveUpdateComment}
                 userCurrent={userCurrent}
-                user={user}
               />
             ))
             }
