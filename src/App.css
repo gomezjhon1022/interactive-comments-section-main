@@ -161,7 +161,7 @@ main {
   grid-area: reply;
   font-weight: 700;
   justify-self: end;
-  width: 110%;
+  width: 120%;
   transform: translate(-10px,0);
   z-index: 10;
 }
