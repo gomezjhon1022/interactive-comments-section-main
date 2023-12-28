@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/interactive-comments-section-main/static/css/main.8f5a4b23.css",
+    "main.css": "/interactive-comments-section-main/static/css/main.21d4f8fe.css",
     "main.js": "/interactive-comments-section-main/static/js/main.7cc62571.js",
     "index.html": "/interactive-comments-section-main/index.html",
     "static/media/icon-plus.svg": "/interactive-comments-section-main/static/media/icon-plus.0037a825a55096577941.svg",
@@ -8,11 +8,11 @@
     "static/media/icon-reply.svg": "/interactive-comments-section-main/static/media/icon-reply.bfb4589d45cd96abd45e.svg",
     "static/media/icon-minus.svg": "/interactive-comments-section-main/static/media/icon-minus.4aa6933cb1575b3c54fa.svg",
     "static/media/icon-delete.svg": "/interactive-comments-section-main/static/media/icon-delete.86cedbf2e37529f9c8f1.svg",
-    "main.8f5a4b23.css.map": "/interactive-comments-section-main/static/css/main.8f5a4b23.css.map",
+    "main.21d4f8fe.css.map": "/interactive-comments-section-main/static/css/main.21d4f8fe.css.map",
     "main.7cc62571.js.map": "/interactive-comments-section-main/static/js/main.7cc62571.js.map"
   },
   "entrypoints": [
-    "static/css/main.8f5a4b23.css",
+    "static/css/main.21d4f8fe.css",
     "static/js/main.7cc62571.js"
   ]
 }
