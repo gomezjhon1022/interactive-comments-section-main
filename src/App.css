@@ -163,7 +163,6 @@ main {
   justify-self: end;
   width: 120%;
   transform: translate(-10px,0);
-  z-index: 10;
 }
 
 .edit {
